@@ -1,0 +1,32 @@
+name: Daily Discord Reminder
+
+on:
+  push:                        # ✅ Runs on every push
+    branches:
+      - '**'                  # All branches
+  schedule:
+    - cron: '30 7 * * 1-5'    # ✅ 1:00 PM IST (Mon-Fri)
+  workflow_dispatch:           # ✅ Manual trigger option
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install discord.py python-dotenv
+
+      - name: Run reminder bot
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          THREAD_ID: ${{ secrets.THREAD_ID }}
+          ROLE_ID: ${{ secrets.ROLE_ID }}
+        run: python bot.py
