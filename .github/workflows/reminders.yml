@@ -1,16 +1,17 @@
 name: Daily Discord Reminder
 
 on:
-  push:                        # ✅ Runs on every push
+  push:                        # ✅ Trigger on any push (for quick testing)
     branches:
-      - '**'                  # All branches
+      - '**'
   schedule:
-    - cron: '30 7 * * 1-5'    # ✅ 1:00 PM IST (Mon-Fri)
+    - cron: '20 12 * * 1-5'    # ✅ 12:20 UTC = 5:50 PM IST, Monday-Friday
   workflow_dispatch:           # ✅ Manual trigger option
 
 jobs:
   send-reminder:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
